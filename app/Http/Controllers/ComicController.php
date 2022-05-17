@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Comic;
+use DateTime;
 use Illuminate\Http\Request;
 
 class ComicController extends Controller
@@ -13,7 +15,9 @@ class ComicController extends Controller
      */
     public function index()
     {
-        //
+        $comics = Comic::all();
+
+        return view('comics.index', ["comics" => $comics]);
     }
 
     /**
@@ -23,7 +27,7 @@ class ComicController extends Controller
      */
     public function create()
     {
-        //
+        return view('comics.create');
     }
 
     /**
@@ -34,7 +38,20 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $newComic = new Comic();
+        $newComic->title = $data["title"];
+        $newComic->description = $data[ "description"];
+        $newComic->thumb = $data["thumb"];
+        $newComic->price = floatval($data[ "price"]);
+        $newComic->series = $data["series"];
+        $newComic->sale_date = DateTime::createFromFormat("Y-m-d", $data["series"]);
+        $newComic->type = $data["type"];
+
+        $newComic->save();
+
+        return redirect()->route('comics.show', $newComic->id);
     }
 
     /**
@@ -45,7 +62,8 @@ class ComicController extends Controller
      */
     public function show($id)
     {
-        //
+        $comic = Comic::findOrFail($id);
+        return view('comics.show', ["comic" => $comic]);
     }
 
     /**
