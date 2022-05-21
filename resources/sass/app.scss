@@ -1,5 +1,13 @@
 //
+.card-body {
+    height: 300px;
+}
+
 .card-text {
     overflow: scroll;
-    height: 200px;
+    height: 75%;
+}
+
+.bg-light {
+    height: 50px;
 }
